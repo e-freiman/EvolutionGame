@@ -28,4 +28,14 @@ public final class Field {
 	public int getHeight() {
 		return cells[0].length;
 	}	
+	
+	public int numberOfAnimals() {
+		int num = 0;
+		for (int i = 0; i < getHeight(); i++)
+			for (int j = 0; j < getWidth(); j++)
+				if (cells[i][j].getAnimal() != null)
+					num++;
+		
+		return num;
+	}
 }

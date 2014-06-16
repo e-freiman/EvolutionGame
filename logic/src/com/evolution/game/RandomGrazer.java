@@ -2,11 +2,11 @@ package com.evolution.game;
 
 import java.util.Random;
 
-public class Grazer extends Animal {
+public class RandomGrazer extends Animal {
 	
 	private Random brain;
 
-	Grazer(int row, int col, Field field) {
+	RandomGrazer(int row, int col, Field field) {
 		super(row, col, field);		
 		brain = new Random(System.nanoTime());
 	}

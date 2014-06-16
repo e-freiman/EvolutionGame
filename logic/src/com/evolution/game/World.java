@@ -1,14 +1,11 @@
 package com.evolution.game;
 
 import java.util.Random;
-import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class World extends Thread {
 	
 	private final Field field = new Field();	
 	private final Random rand = new Random(System.currentTimeMillis());
-	
-	public final ReentrantLock lock = new ReentrantLock();
 	
 	public Field getField() {
 		return field;
@@ -35,25 +32,8 @@ public abstract class World extends Thread {
 		
 		cell.setAnimal(makeAnimal(row, col, field));
 	}
-	
-	@Override
-	public void run() {
-		super.run();
 		
-		while(!Thread.interrupted()) {
-			try {
-				sleep(Properties.UPDATE_INTERVAL);
-				
-				lock.lock();
-				runStep();
-				lock.unlock();
-				
-			} catch (InterruptedException e) {
-			}
-		}
-	}
-	
-	void runStep() {
+	public void run() {
 		for (int i = 0; i < field.getHeight(); i++) {
 			for (int j = 0; j < field.getWidth(); j++)	{
 				Cell cell = field.getCell(i, j);

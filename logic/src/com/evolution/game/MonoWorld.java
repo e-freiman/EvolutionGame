@@ -4,6 +4,6 @@ public class MonoWorld extends World {
 
 	@Override
 	Animal makeAnimal(int row, int col, Field field) {
-		return new Grazer(row, col, field);
+		return new RandomGrazer(row, col, field);
 	}
 }
