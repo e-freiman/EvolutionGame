@@ -5,9 +5,9 @@ import java.util.Random;
 public class RandomGrazer extends Animal {
 	
 	private Random brain;
-
-	RandomGrazer(int row, int col, Field field) {
-		super(row, col, field);		
+	
+	RandomGrazer(Animal[] parents, int row, int col, Field field) {
+		super(parents, row, col, field);		
 		brain = new Random(System.nanoTime());
 	}
 

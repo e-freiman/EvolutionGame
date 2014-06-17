@@ -11,15 +11,15 @@ public abstract class World extends Thread {
 		return field;
 	}
 	
-	abstract Animal makeAnimal(int row, int col, Field field);
+	abstract Animal makeAnimal(Animal[] parents, int row, int col, Field field);
 	
 	World() {
 		for (int i = 0; i < Properties.NUMBER_OF_ANIMALS; i++) {
-			putAnimal();
+			putAnimal(null);
 		}
 	}
 	
-	void putAnimal() {
+	void putAnimal(Animal[] parents) {
 		
 		int row, col;		
 		Cell cell;
@@ -30,7 +30,7 @@ public abstract class World extends Thread {
 			cell = field.getCell(row, col);			
 		} while (cell.getAnimal() != null);
 		
-		cell.setAnimal(makeAnimal(row, col, field));
+		cell.setAnimal(makeAnimal(parents, row, col, field));
 	}
 		
 	public void run() {
@@ -45,7 +45,7 @@ public abstract class World extends Thread {
 						animal.eat();
 						
 						if (animal.tryReproduce()) {
-							putAnimal();
+							putAnimal(new Animal[]{animal});
 						}
 						
 						Byte[] intent = animal.getIntent();

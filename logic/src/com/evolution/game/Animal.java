@@ -6,7 +6,7 @@ public abstract class Animal {
 	private int color;
 	private int weight;
 	private Field field;
-	
+		
 	boolean loseWeight() {
 		weight -= Properties.WEIGHT_LOSING;
 		
@@ -34,6 +34,11 @@ public abstract class Animal {
 	
 	boolean move(int dRow, int dCol) {
 		
+		if (dRow < 0) dRow = -1;
+		if (dRow > 0) dRow = 1;
+		if (dCol < 0) dCol = -1;
+		if (dCol > 0) dCol = 1;
+		
 		int i = row + dRow,
 			j = col + dCol;
 		
@@ -57,7 +62,7 @@ public abstract class Animal {
 		return false;		
 	}
 	
-	Animal(int row, int col, Field field) {
+	Animal(Animal[] parents, int row, int col, Field field) {
 		this.col = col;
 		this.row = row;
 		this.weight = Properties.START_WEIGHT;
