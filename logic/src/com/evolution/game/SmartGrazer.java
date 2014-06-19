@@ -1,5 +1,14 @@
 package com.evolution.game;
 
+class GrazerTeacher implements Teacher {
+
+	@Override
+	public Lesson getLesson() {
+		return null;
+	}
+	
+}
+
 public class SmartGrazer extends Animal {
 	private static final int SIZE_OF_INPUT = 9;
 	

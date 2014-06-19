@@ -50,6 +50,20 @@ class Layer
     Neuron[] neurons;
 }
 
+class Lesson {
+	double[] input;
+	double[] output;
+	
+	Lesson(int inputSize, int outputSize) {
+		input = new double[inputSize];
+		output = new double[outputSize];
+	}
+}
+
+interface Teacher {
+	Lesson getLesson();
+}
+
 public class MultilayerPerceptron
 {
 	static final double ETA = 0.7;
@@ -87,6 +101,16 @@ public class MultilayerPerceptron
         return output;
     }
 
+    MultilayerPerceptron(int inputSize, int outputSize, int hiddenLayers, int neuronsPerHiddenLayers, 
+    					 Teacher teacher, int numberOfLessons) {
+    	this(inputSize, outputSize, hiddenLayers, neuronsPerHiddenLayers);
+    
+        for (int i = 0; i < numberOfLessons; i++ )
+        {
+        	Lesson lesson = teacher.getLesson();
+            teach(lesson.input, lesson.output);
+        }
+    }
 
     MultilayerPerceptron(int inputSize, int outputSize, int hiddenLayers, int neuronsPerHiddenLayers)
     {
@@ -192,26 +216,31 @@ public class MultilayerPerceptron
     }
     
     public static void main(String[] args) throws Exception {
-        MultilayerPerceptron mp = new MultilayerPerceptron(2, 1, 1, 3);
+    	
+    	final Random rand = new Random(System.nanoTime());
+    	
+    	class XORTeacher implements Teacher {
+
+			@Override
+			public Lesson getLesson() {
+				Lesson lesson = new Lesson(2, 1);
+				
+	            boolean a = rand.nextInt(2) == 0,
+	            		b = rand.nextInt(2) == 1,
+	            		c = a ^ b; 
+
+	            if (a) lesson.input[0] = 1; else lesson.input[0] = 0;
+	            if (b) lesson.input[1] = 1; else lesson.input[1] = 0;
+	            if (c) lesson.output[0] = 1; else lesson.output[0] = 0;
+				
+	            return lesson;
+			}    		
+    	}
+    	
+        MultilayerPerceptron mp = new MultilayerPerceptron(2, 1, 1, 3, new XORTeacher(), 1000000);
 
         double[] input = new double[2];
-        double[] output = new double[1];
-
-        Random rand = new Random(System.nanoTime());
-
-        for (int i = 0; i < 1000000; i++ )
-        {
-            boolean a = rand.nextInt(2) == 0,
-            		b = rand.nextInt(2) == 1,
-            		c = a ^ b; 
-
-            if (a) input[0] = 1; else input[0] = 0;
-            if (b) input[1] = 1; else input[1] = 0;
-            if (c) output[0] = 1; else output[0] = 0;
-
-            mp.teach(input, output);
-        }
-
+        
         for (int i = 0; i < 2; i++) {
         	for (int j = 0; j < 2; j++) {
 		        input[0] = i;
