@@ -6,6 +6,10 @@ public abstract class Animal {
 	private int color;
 	private int weight;
 	private Field field;
+	
+	Cell getCell() {
+		return field.getCell(row, col);
+	}
 		
 	boolean loseWeight() {
 		weight -= Properties.WEIGHT_LOSING;
@@ -33,12 +37,6 @@ public abstract class Animal {
 	}
 	
 	boolean move(int dRow, int dCol) {
-		
-		if (dRow < 0) dRow = -1;
-		if (dRow > 0) dRow = 1;
-		if (dCol < 0) dCol = -1;
-		if (dCol > 0) dCol = 1;
-		
 		int i = row + dRow,
 			j = col + dCol;
 		

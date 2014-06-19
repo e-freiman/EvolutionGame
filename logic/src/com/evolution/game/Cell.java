@@ -48,16 +48,12 @@ public final class Cell implements Iterable<Cell> {
 
 			@Override
 			public Cell next() {
-				if (index == 4) index++;
-							
-				int i, j;
-				
-				do {			
-					i = col - 1 + index / 3;
-					j = row - 1 + index % 3;				
-					index++;
-				}
-				while(!field.isLegal(i, j) && index < 9);
+
+				int i = col - 1 + index / 3;
+				int j = row - 1 + index % 3;				
+				index++;
+				if (!field.isLegal(i, j))
+					return null;
 				
 				return field.getCell(i, j);
 			}
